@@ -1,10 +1,11 @@
 ---
 import ThemeSwitch from './ThemeSwitch.astro';
+const home = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <header class="header">
   <div class="container header__row">
-    <a class="header__logo" href="/">ТрекЧек</a>
+    <a class="header__logo" href={home}>ТрекЧек</a>
     <ThemeSwitch />
   </div>
 </header>

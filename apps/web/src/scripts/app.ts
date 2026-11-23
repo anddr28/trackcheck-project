@@ -275,5 +275,7 @@ if (!input.value && matchMedia('(pointer: fine)').matches) input.focus();
 
 // Офлайн-режим: service worker регистрируем после загрузки, чтобы не мешать первому результату.
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  addEventListener('load', () => navigator.serviceWorker?.register('/sw.js').catch(() => {}));
+  // Сайт может жить не в корне домена (GitHub Pages: /trackcheck-project/) — берём базовый путь сборки.
+  const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+  addEventListener('load', () => navigator.serviceWorker?.register(`${base}sw.js`, { scope: base }).catch(() => {}));
 }

@@ -25,12 +25,20 @@ npm run check:colors -w @trackcheck/web   # цвета: правила пали�
 npm run dev:playground   # песочница детектора
 ```
 
+## Публикация на GitHub Pages
+
+Сайт собирается и публикуется workflow `.github/workflows/pages.yml` при каждом push в `main`: сначала тесты, затем сборка Astro, затем публикация `apps/web/dist`.
+
+Один раз в настройках репозитория: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Если оставить «Deploy from a branch», GitHub запускает Jekyll по исходникам и падает на файлах `.astro`.
+
+Адрес — `https://<владелец>.github.io/<репозиторий>/`: все пути на сайте строятся от этого базового пути (`BASE_PATH`). Для своего домена задайте в workflow `SITE_URL=https://домен` и `BASE_PATH=/`.
+
 ## Что заполнить перед запуском
 
 Все такие места помечены `ЗАПОЛНИТЬ`:
 
 - `apps/web/src/config.ts` — `DONATE_URL` (ссылка на кошелёк; QR-код из неё собирается при сборке в `/donate-qr.svg`), `BOT_URL` и `BOT_ENABLED` (ссылка на бота скрыта, пока флаг выключен);
-- `apps/web/astro.config.mjs` — `site`, адрес сайта (нужен на этапе 3 для canonical и sitemap).
+- адрес сайта — переменные `SITE_URL` и `BASE_PATH` в `.github/workflows/pages.yml` (нужны на этапе 3 для canonical и sitemap).
 
 ## Сайт
 

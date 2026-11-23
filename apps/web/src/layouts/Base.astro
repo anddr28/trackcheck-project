@@ -6,6 +6,8 @@ interface Props {
   description: string;
 }
 const { title, description } = Astro.props;
+// Базовый путь сайта: «/» локально, «/trackcheck-project/» на GitHub Pages.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <!doctype html>
@@ -17,10 +19,10 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <!-- Иконки и PWA. Цвета в мета-тегах — hex токенов --bg (светлая/тёмная), CSS-переменные тут не работают -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/icons/icon-32.png" sizes="32x32" type="image/png" />
-    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${base}icons/icon-32.png`} sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href={`${base}icons/apple-touch-icon.png`} />
+    <link rel="manifest" href={`${base}manifest.webmanifest`} />
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)" />
     <!--

@@ -1,7 +1,9 @@
 // Офлайн-режим ТрекЧека. Распознавание номера целиком в браузере, поэтому после первого
 // посещения сайт работает без сети. Номера сюда не попадают: часть адреса после «#» в запросах нет.
-const CACHE = 'trackcheck-v1';
-const CORE = ['/', '/favicon.svg', '/manifest.webmanifest', '/icons/icon-192.png'];
+const CACHE = 'trackcheck-v2';
+// Пути относительно места, где лежит sw.js: сайт может жить не в корне домена (GitHub Pages).
+const ROOT = new URL('./', self.location).href;
+const CORE = ['./', './favicon.svg', './manifest.webmanifest', './icons/icon-192.png'].map((p) => new URL(p, self.location).href);
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(CORE)));
@@ -30,7 +32,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE).then((cache) => cache.put(req, copy));
           return res;
         })
-        .catch(() => caches.match(req).then((hit) => hit || caches.match('/'))),
+        .catch(() => caches.match(req).then((hit) => hit || caches.match(ROOT))),
     );
     return;
   }

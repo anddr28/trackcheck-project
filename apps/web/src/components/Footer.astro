@@ -2,6 +2,7 @@
 // Подвал: что делает сайт, донат (QR по нажатию, без скриптов), ссылка на бота — скрыта флагом до запуска бота.
 import { BOT_ENABLED, BOT_URL, DONATE_URL, isPlaceholder } from '../config';
 const placeholder = isPlaceholder(DONATE_URL);
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <footer class="footer">
@@ -14,7 +15,7 @@ const placeholder = isPlaceholder(DONATE_URL);
       <summary class="footer__text">Сайт без рекламы. Если пригодился — <span class="donate__link">поддержите проект</span></summary>
       <div class="donate__box">
         <!-- loading="lazy": картинка не грузится, пока блок закрыт -->
-        <img class="donate__qr" src="/donate-qr.svg" alt="QR-код ссылки на кошелёк" width="128" height="128" loading="lazy" />
+        <img class="donate__qr" src={`${base}donate-qr.svg`} alt="QR-код ссылки на кошелёк" width="128" height="128" loading="lazy" />
         <p class="footer__text">
           {
             placeholder ? (
