@@ -1,0 +1,12 @@
+export { detect, detectAll, universalLink } from './detect';
+export { normalize, toLatin, toCyrillic } from './normalize';
+export { groupDigits, formatPochta, formatS10 } from './format';
+export { RULES, S10_TYPES, s10CheckDigit, s10Valid, pochtaCheckDigit, pochtaValid } from './rules';
+export { ORDER_PATTERNS, luhnValid } from './guards';
+export type { OrderPattern } from './guards';
+export type { Rule } from './rules';
+export { CARRIERS, CARRIER_LIST, AVITO_PARTNERS, UNIVERSAL_TRACKER, fillUrl } from './carriers';
+export type { Carrier, CarrierKind, Tracking } from './carriers';
+export { COUNTRIES, COUNTRY_LIST } from './countries';
+export type { PostCountry, Region } from './countries';
+export type * from './types';

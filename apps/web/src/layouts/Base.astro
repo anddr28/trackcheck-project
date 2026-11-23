@@ -1,0 +1,43 @@
+---
+import '../styles/base.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- Иконки и PWA. Цвета в мета-тегах — hex токенов --bg (светлая/тёмная), CSS-переменные тут не работают -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/icon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)" />
+    <!--
+      Тема применяется до отрисовки, чтобы не было вспышки: без сохранённого выбора
+      работает color-scheme: light dark из tokens.css (как в системе, с переключением на лету).
+    -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        var t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t === 'light' || t === 'dark') d.dataset.theme = t;
+        d.dataset.themeChoice = t === 'light' || t === 'dark' ? t : 'system';
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

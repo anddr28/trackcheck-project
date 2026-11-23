@@ -1,0 +1,84 @@
+---
+// Тема — одна кнопка-иконка (решение суда, docs/court.md): по кругу «как в системе» → светлая → тёмная.
+// Иконка показывает текущий выбор; подпись — в aria-label и всплывающей подсказке.
+import { icon } from '../lib/icons';
+---
+
+<button type="button" class="theme" id="theme-toggle" aria-label="Тема: как в системе. Нажмите, чтобы сменить">
+  <span class="theme__icon" data-for="system"><Fragment set:html={icon('monitor')} /></span>
+  <span class="theme__icon" data-for="light"><Fragment set:html={icon('sun')} /></span>
+  <span class="theme__icon" data-for="dark"><Fragment set:html={icon('moon')} /></span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.getElementById('theme-toggle') as HTMLButtonElement;
+  const ORDER = ['system', 'light', 'dark'] as const;
+  const NAME = { system: 'как в системе', light: 'светлая', dark: 'тёмная' };
+  type Choice = (typeof ORDER)[number];
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  const current = (): Choice => (root.dataset.theme === 'light' || root.dataset.theme === 'dark' ? root.dataset.theme : 'system');
+
+  function show() {
+    const c = current();
+    root.dataset.themeChoice = c;
+    btn.setAttribute('aria-label', `Тема: ${NAME[c]}. Нажмите, чтобы сменить`);
+    btn.title = `Тема: ${NAME[c]}`;
+  }
+
+  function animate() {
+    root.classList.add('theme-anim');
+    clearTimeout(timer);
+    timer = setTimeout(() => root.classList.remove('theme-anim'), 400);
+  }
+
+  btn.addEventListener('click', () => {
+    const next = ORDER[(ORDER.indexOf(current()) + 1) % ORDER.length]!;
+    animate();
+    if (next === 'system') {
+      delete root.dataset.theme;
+      try { localStorage.removeItem('theme'); } catch {}
+    } else {
+      root.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch {}
+    }
+    show();
+  });
+
+  // Система сменила тему (например, по времени суток): CSS переключится сам, добавляем только плавность.
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (current() === 'system') animate();
+  });
+
+  show();
+</script>
+
+<style>
+  .theme {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    border: var(--border-w) solid var(--border);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .theme:hover {
+    background: var(--surface-2);
+  }
+
+  .theme__icon {
+    display: none;
+  }
+
+  :root:not([data-theme-choice]) .theme__icon[data-for='system'],
+  :root[data-theme-choice='system'] .theme__icon[data-for='system'],
+  :root[data-theme-choice='light'] .theme__icon[data-for='light'],
+  :root[data-theme-choice='dark'] .theme__icon[data-for='dark'] {
+    display: grid;
+  }
+</style>

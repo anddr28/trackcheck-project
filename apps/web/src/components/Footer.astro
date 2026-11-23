@@ -1,0 +1,83 @@
+---
+// Подвал: что делает сайт, донат (QR по нажатию, без скриптов), ссылка на бота — скрыта флагом до запуска бота.
+import { BOT_ENABLED, BOT_URL, DONATE_URL, isPlaceholder } from '../config';
+const placeholder = isPlaceholder(DONATE_URL);
+---
+
+<footer class="footer">
+  <div class="container footer__row">
+    <p class="footer__text">
+      ТрекЧек сам не показывает, где посылка: он находит службу доставки и открывает её официальный сайт с вашим номером.
+      Номера не уходят на сервер — история хранится только в этом браузере.
+    </p>
+    <details class="donate">
+      <summary class="footer__text">Сайт без рекламы. Если пригодился — <span class="donate__link">поддержите проект</span></summary>
+      <div class="donate__box">
+        <!-- loading="lazy": картинка не грузится, пока блок закрыт -->
+        <img class="donate__qr" src="/donate-qr.svg" alt="QR-код ссылки на кошелёк" width="128" height="128" loading="lazy" />
+        <p class="footer__text">
+          {
+            placeholder ? (
+              <span>Ссылка на кошелёк появится здесь (ЗАПОЛНИТЬ_ССЫЛКУ_ДОНАТА).</span>
+            ) : (
+              <a href={DONATE_URL} target="_blank" rel="noopener noreferrer">Открыть кошелёк</a>
+            )
+          }
+        </p>
+      </div>
+    </details>
+    {BOT_ENABLED && <p class="footer__text"><a href={BOT_URL}>Telegram-бот ТрекЧека</a></p>}
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-48);
+    border-top: var(--border-w) solid var(--border);
+    background: var(--surface);
+  }
+
+  .footer__row {
+    display: grid;
+    gap: var(--space-16);
+    padding-block: var(--space-24) var(--space-32);
+  }
+
+  .footer__text {
+    max-width: var(--column);
+    color: var(--text-muted);
+    font-size: var(--fs-14);
+  }
+
+  .donate summary {
+    min-height: var(--tap-s);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .donate summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .donate__link {
+    color: var(--brand);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .donate__box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-16);
+    margin-top: var(--space-12);
+  }
+
+  /* QR остаётся чёрным на белом в обеих темах: так его читают камеры */
+  .donate__qr {
+    display: block;
+    width: calc(var(--space-64) * 2);
+    height: auto;
+    border-radius: var(--radius-s);
+  }
+</style>

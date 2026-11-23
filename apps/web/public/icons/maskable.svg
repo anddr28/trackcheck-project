@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Вариант для «maskable»: фон до краёв, знак в безопасной зоне (центральные 80%) -->
+  <rect width="64" height="64" fill="#02717a"/>
+  <rect x="20" y="20" width="24" height="6.5" rx="1.5" fill="#ffffff"/>
+  <rect x="28.75" y="20" width="6.5" height="24" rx="1.5" fill="#ffffff"/>
+</svg>

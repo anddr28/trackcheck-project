@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ТрекЧек — песочница детектора</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; color: #1a1a1a; }
+    textarea { width: 100%; box-sizing: border-box; font: 18px/1.4 ui-monospace, monospace; padding: 12px; min-height: 64px; }
+    .examples button { margin: 4px 4px 0 0; font: 13px ui-monospace, monospace; cursor: pointer; }
+    .result { border: 1px solid #ccc; border-radius: 8px; padding: 12px 16px; margin-top: 16px; }
+    .cand { border-top: 1px solid #eee; padding: 8px 0; }
+    .cand:first-of-type { border-top: 0; }
+    .rank { font-weight: 700; }
+    .num { font: 20px ui-monospace, monospace; }
+    .muted { color: #666; font-size: 14px; }
+    .hint { background: #f4f4f4; padding: 6px 10px; border-radius: 6px; margin: 6px 0; font-size: 14px; }
+    .warning { background: #fff3d6; }
+    .badge { font-size: 12px; padding: 1px 6px; border-radius: 4px; background: #eee; }
+  </style>
+</head>
+<body>
+  <h1>Песочница детектора</h1>
+  <p class="muted">Это не сайт, а страница для проверки модуля определения. Вставьте номер или кусок текста с несколькими номерами.</p>
+  <label for="inp">Трек-номер или текст</label>
+  <textarea id="inp" autofocus></textarea>
+  <div class="examples" id="examples"></div>
+  <div id="out"></div>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>

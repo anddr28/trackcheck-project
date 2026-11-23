@@ -1,0 +1,12 @@
+{
+  "name": "@trackcheck/playground",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open"
+  },
+  "dependencies": {
+    "@trackcheck/detector": "*"
+  }
+}

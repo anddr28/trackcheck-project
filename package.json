@@ -1,0 +1,16 @@
+{
+  "name": "trackcheck",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "dev": "npm run dev -w @trackcheck/web",
+    "dev:playground": "npm run dev -w @trackcheck/playground",
+    "build": "npm run build -w @trackcheck/web"
+  }
+}

@@ -1,0 +1,658 @@
+/* Главный экран: поле, ответ, список номеров, история. Только значения из tokens.css. */
+
+/* --- Сетка: колонка ответа слева, история справа на широких экранах ------------ */
+
+.layout {
+  display: grid;
+  gap: var(--space-32);
+  padding-block: var(--space-24) var(--space-32);
+}
+
+@media (min-width: 768px) {
+  .layout {
+    padding-block-start: var(--space-48);
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, var(--column)) minmax(0, 1fr);
+    gap: var(--space-48);
+    align-items: start;
+  }
+
+  .layout__aside {
+    position: sticky;
+    top: var(--space-24);
+  }
+}
+
+.tracker {
+  display: grid;
+  gap: var(--space-12);
+  min-width: 0;
+}
+
+.tracker__title {
+  font-size: var(--fs-28);
+}
+
+@media (min-width: 768px) {
+  .tracker__title {
+    font-size: var(--fs-36);
+  }
+}
+
+.tracker__help,
+.tracker__note,
+.tracker__pending {
+  color: var(--text-muted);
+  font-size: var(--fs-16);
+}
+
+.tracker__note:empty {
+  display: none;
+}
+
+/* «Определяем…» видно, только пока скрипт не загрузился, а в поле уже есть текст */
+.tracker__pending {
+  display: none;
+}
+
+:root:not(.app-ready) .tracker:has(.field__input:not(:placeholder-shown)) .tracker__pending {
+  display: block;
+}
+
+/* --- Поле ввода ------------------------------------------------------------ */
+
+.field {
+  position: relative;
+  margin-top: var(--space-4);
+}
+
+.field__input {
+  display: block;
+  width: 100%;
+  min-height: var(--input-height);
+  padding: var(--space-16) calc(var(--tap) + var(--space-12)) var(--space-16) var(--space-16);
+  resize: none;
+  overflow: hidden;
+  border: var(--border-w) solid var(--border-input);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  font-size: var(--fs-22);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+}
+
+/* Подсказка светлая и обычного начертания — её не спутать с введённым номером */
+.field__input::placeholder {
+  color: var(--text-muted);
+  font-size: var(--fs-18);
+  font-weight: var(--fw-regular);
+}
+
+.field__input:focus-visible {
+  outline: var(--focus-w) solid var(--brand);
+  outline-offset: 0;
+  border-color: var(--brand);
+}
+
+.field__btn {
+  position: absolute;
+  inset-block-start: var(--space-8);
+  inset-inline-end: var(--space-8);
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--brand);
+  cursor: pointer;
+}
+
+#track-clear {
+  color: var(--text-muted);
+}
+
+.field__btn:hover {
+  background: var(--surface-2);
+}
+
+/* --- Примеры --------------------------------------------------------------- */
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--fs-16);
+}
+
+.examples[hidden] {
+  display: none;
+}
+
+.examples__label {
+  color: var(--text-muted);
+}
+
+.examples__item {
+  min-height: var(--tap-s);
+  padding: var(--space-4) var(--space-12);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+  color: var(--brand);
+  font-size: var(--fs-16);
+  cursor: pointer;
+}
+
+.examples__item:hover {
+  background: var(--brand-soft);
+}
+
+/* --- Кнопки ---------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: var(--tap);
+  padding: var(--space-12) var(--space-24);
+  border: var(--border-w) solid transparent;
+  border-radius: var(--radius-m);
+  font-size: var(--fs-16);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.btn--primary:hover {
+  background: color-mix(in oklch, var(--brand), var(--text) 12%);
+}
+
+.btn--quiet {
+  background: var(--surface);
+  color: var(--brand);
+  border-color: var(--border-input);
+  font-weight: var(--fw-medium);
+}
+
+.btn--quiet:hover {
+  background: var(--brand-soft);
+}
+
+.btn--small {
+  min-height: var(--tap-s);
+  padding: var(--space-8) var(--space-12);
+  font-size: var(--fs-14);
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--tap-s);
+  height: var(--tap-s);
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.link-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--brand);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.icon {
+  flex: none;
+}
+
+.ok {
+  color: var(--success);
+}
+
+/* --- Результат ------------------------------------------------------------- */
+
+.results {
+  display: grid;
+  gap: var(--space-16);
+  min-width: 0;
+}
+
+.results:empty {
+  display: none;
+}
+
+.result {
+  display: grid;
+  gap: var(--space-12);
+  min-width: 0;
+}
+
+/* Ответ: рамка без тени — один блок на странице, а не лента карточек */
+.answer {
+  display: grid;
+  gap: var(--space-8);
+  min-width: 0;
+  padding: var(--space-16);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+}
+
+@media (min-width: 768px) {
+  .answer {
+    padding: var(--space-24);
+  }
+}
+
+.answer__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4) var(--space-12);
+}
+
+.answer__rank,
+.answer__meta,
+.answer__labels {
+  color: var(--text-muted);
+  font-size: var(--fs-16);
+}
+
+.answer__title {
+  font-size: var(--fs-22);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.answer__number {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* Номер — один раз, без переноса; длинный — мельче, при нехватке места прокручивается */
+.number {
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: var(--fs-28);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.number--long {
+  font-size: var(--fs-22);
+}
+
+@media (min-width: 768px) {
+  .number {
+    font-size: var(--fs-36);
+  }
+
+  .number--long {
+    font-size: var(--fs-28);
+  }
+}
+
+/* Плашка службы: цвет бренда, без логотипов (чужие товарные знаки) */
+.plaque {
+  display: inline-block;
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-s);
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+  font-size: var(--fs-22);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.plaque--small {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--fs-16);
+}
+
+/* Действие и честная подпись под ним */
+.act {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  justify-items: start;
+}
+
+.act .btn--primary {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .act .btn--primary {
+    width: auto;
+  }
+}
+
+.act__note {
+  color: var(--text-muted);
+  font-size: var(--fs-14);
+}
+
+.act__status {
+  color: var(--text);
+  font-size: var(--fs-14);
+  font-weight: var(--fw-medium);
+}
+
+.act__status:empty {
+  display: none;
+}
+
+.more-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8) var(--space-16);
+  font-size: var(--fs-16);
+}
+
+/* «Что значит этот номер» и «Также похоже на…» — раскрывающиеся строки */
+.explain,
+.also {
+  font-size: var(--fs-16);
+}
+
+.explain summary,
+.also summary,
+.row__details > summary {
+  min-height: var(--tap-s);
+  padding-block: var(--space-8);
+  color: var(--brand);
+  cursor: pointer;
+}
+
+.also summary {
+  color: var(--text-muted);
+}
+
+.explain__list {
+  display: grid;
+  gap: var(--space-8);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.explain__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-12);
+  align-items: baseline;
+}
+
+.explain__row > span:only-child {
+  grid-column: 1 / -1;
+}
+
+.explain__part {
+  padding: 0 var(--space-8);
+  border-radius: var(--radius-s);
+  background: var(--surface-2);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+
+.explain__row svg {
+  margin-inline-end: var(--space-4);
+  vertical-align: -0.15em;
+}
+
+.explain__row--bad {
+  color: var(--text);
+}
+
+.options {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.option {
+  display: grid;
+  gap: var(--space-4);
+  padding-block: var(--space-12);
+  border-top: var(--border-w) solid var(--border);
+}
+
+.option:first-child {
+  border-top: 0;
+}
+
+.option__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4) var(--space-12);
+}
+
+.option__meta {
+  color: var(--text-muted);
+  font-size: var(--fs-14);
+}
+
+.option .act {
+  margin-top: 0;
+}
+
+/* --- Подсказки ------------------------------------------------------------- */
+
+.hints {
+  display: grid;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hint {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-8);
+  align-items: start;
+  font-size: var(--fs-16);
+}
+
+.hint svg {
+  margin-top: var(--space-4);
+}
+
+.hint--info {
+  color: var(--text-muted);
+}
+
+.hint--warning {
+  padding: var(--space-12) var(--space-16);
+  border-inline-start: var(--focus-w) solid var(--warn-line);
+  border-radius: var(--radius-s);
+  background: var(--warn-soft);
+  color: var(--text);
+}
+
+/* --- Несколько номеров и история: строки ------------------------------------- */
+
+.batch {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.batch__summary {
+  font-weight: var(--fw-bold);
+}
+
+.batch__actions,
+.share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.rows {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-w) solid var(--border);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4) var(--space-8);
+  align-items: start;
+  padding-block: var(--space-4);
+  border-bottom: var(--border-w) solid var(--border);
+}
+
+.row__details > summary {
+  display: grid;
+  color: var(--text);
+  list-style: none;
+}
+
+.row__details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.row__details[open] {
+  grid-column: 1 / -1;
+  padding-bottom: var(--space-12);
+}
+
+.row__details[open] + .row__open {
+  display: none;
+}
+
+.row__num {
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row__carrier {
+  color: var(--text-muted);
+  font-size: var(--fs-14);
+}
+
+.row__open {
+  margin-top: var(--space-4);
+}
+
+/* --- История ---------------------------------------------------------------- */
+
+.history {
+  display: grid;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+.history__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-8);
+}
+
+.history__title {
+  font-size: var(--fs-22);
+}
+
+.history__note,
+.history__empty,
+.history__confirm,
+.history .link-btn {
+  color: var(--text-muted);
+  font-size: var(--fs-14);
+}
+
+.history .link-btn {
+  color: var(--brand);
+}
+
+/* На телефоне без истории блок не нужен: пустой текст показываем только справа на широком экране */
+@media (max-width: 1023px) {
+  body:not(.has-history) .history {
+    display: none;
+  }
+}
+
+.hrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-w) solid var(--border);
+}
+
+.hrow__main {
+  display: grid;
+  min-width: 0;
+  min-height: var(--tap-s);
+  padding: var(--space-4) 0;
+  border: 0;
+  background: none;
+  text-align: start;
+  cursor: pointer;
+}
+
+.hrow__main:hover .row__num {
+  color: var(--brand);
+}
+
+.hrow__label {
+  font-size: var(--fs-14);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hrow__edit {
+  grid-column: 1 / -1;
+}
+
+.hrow__edit input {
+  width: 100%;
+  min-height: var(--tap-s);
+  padding: var(--space-8) var(--space-12);
+  border: var(--border-w) solid var(--border-input);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+  font-size: var(--fs-16);
+}

@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { icon } from '../lib/icons';
+import '../styles/tracker.css';
+
+// Примеры — реальные форматы из docs/formats-research.md (цифры изменены, контрольная цифра Почты верна).
+const EXAMPLES = [
+  { value: '450051 45 00974 4', label: 'Почта России' },
+  { value: '1150362728', label: 'СДЭК' },
+  { value: 'LP894106589032648021', label: 'AliExpress' },
+];
+---
+
+<Base
+  title="ТрекЧек — чей это трек-номер и где его отследить"
+  description="Вставьте трек-номер: определим службу доставки и откроем её официальный сайт с вашим номером. Без рекламы и регистрации."
+>
+  <Header />
+  <main class="container layout">
+    <div class="layout__main tracker">
+      <h1 class="tracker__title"><label for="track-input">Вставьте трек-номер</label></h1>
+
+      <div class="field">
+        <textarea
+          id="track-input"
+          class="field__input"
+          rows="1"
+          placeholder="Номер или сообщение с ним — можно несколько"
+          aria-describedby="track-help"
+          autocomplete="off"
+          autocapitalize="characters"
+          autocorrect="off"
+          spellcheck="false"
+          enterkeyhint="go"></textarea>
+        <button type="button" id="track-paste" class="field__btn" hidden title="Вставить из буфера">
+          <Fragment set:html={icon('paste')} />
+          <span class="sr-only">Вставить из буфера обмена</span>
+        </button>
+        <button type="button" id="track-clear" class="field__btn" hidden title="Очистить">
+          <Fragment set:html={icon('close')} />
+          <span class="sr-only">Очистить поле</span>
+        </button>
+      </div>
+
+      <p id="track-help" class="tracker__help">
+        Определяем службу доставки и открываем её официальный сайт с вашим номером. Без рекламы и регистрации.
+      </p>
+      <p id="track-examples" class="examples">
+        <span class="examples__label">Пример:</span>
+        {
+          EXAMPLES.map((e) => (
+            <button type="button" class="examples__item" data-example={e.value}>
+              {e.label}
+            </button>
+          ))
+        }
+      </p>
+
+      <!-- Пока не загрузился скрипт, а номер уже введён -->
+      <p class="tracker__pending" aria-hidden="true">Определяем…</p>
+      <p id="track-note" class="tracker__note" role="status"></p>
+
+      <div id="results" class="results" aria-live="polite"></div>
+    </div>
+
+    <aside id="history" class="layout__aside history" aria-labelledby="history-title"></aside>
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  import '../scripts/app';
+</script>

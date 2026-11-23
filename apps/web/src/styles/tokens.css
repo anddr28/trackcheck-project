@@ -1,0 +1,89 @@
+/*
+  Токены дизайна ТрекЧека — единственное место, где задаются цвета, размеры, отступы, радиусы и тени.
+  Цвета: light-dark(светлая, тёмная). Тема по умолчанию — как в системе (color-scheme: light dark),
+  ручной выбор ставит data-theme на <html>. Проверка: npm run check:colors -w @trackcheck/web
+*/
+
+:root {
+  color-scheme: light dark;
+
+  /* Шрифт: Manrope (кириллица), локальный woff2 */
+  --font: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* Шкала размеров */
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-18: 1.125rem;
+  --fs-22: 1.375rem;
+  --fs-28: 1.75rem;
+  --fs-36: 2.25rem;
+  --lh-text: 1.55;
+  --lh-tight: 1.2;
+
+  /* Шкала отступов */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  /* Радиусы: малый — плашки и метки, основной — поля, кнопки, карточки */
+  --radius-s: 6px;
+  --radius-m: 12px;
+
+  /* Сетка */
+  --container: 1200px;
+  --column: 720px;
+  --gutter: 16px;
+  --tap: 48px; /* минимальная высота кнопок и полей на телефоне */
+  --tap-s: 44px; /* компактные кнопки в списках — не меньше 44 px под палец */
+  --input-height: 64px;
+  --border-w: 1px;
+  --focus-w: 3px;
+  --focus-offset: 2px;
+  /* Точки перелома (в @media переменные не работают, значения повторяются в CSS): 480 / 768 / 1024 */
+
+  /* Движение */
+  --dur: 200ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Нейтральные: почти чистые серые, без подтона */
+  --bg:           light-dark(oklch(0.985 0 0), oklch(0.17 0 0));
+  --surface:      light-dark(oklch(1 0 0),     oklch(0.21 0 0));
+  --surface-2:    light-dark(oklch(0.96 0 0),  oklch(0.25 0 0));
+  --border:       light-dark(oklch(0.9 0 0),   oklch(0.31 0 0));
+  --border-input: light-dark(oklch(0.62 0 0),  oklch(0.55 0 0)); /* граница поля: 3:1 к фону */
+  --text:         light-dark(oklch(0.22 0 0),  oklch(0.95 0 0));
+  --text-muted:   light-dark(oklch(0.46 0 0),  oklch(0.74 0 0));
+
+  /* Служебные */
+  --success:      light-dark(oklch(0.48 0.12 150), oklch(0.78 0.13 150));
+  --warn-soft:    light-dark(oklch(0.96 0.035 85), oklch(0.27 0.04 80));
+  --warn-line:    light-dark(oklch(0.6 0.12 70),  oklch(0.8 0.13 85));
+
+  /* Тень — одна, мягкая, нейтральная */
+  --shadow: 0 1px 2px oklch(0 0 0 / 0.06), 0 4px 16px oklch(0 0 0 / 0.06);
+}
+
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark']  { color-scheme: dark; }
+
+/*
+  Бренд — «Петроль» (сине-зелёный): не совпадает с цветами крупных служб доставки.
+  --brand      кнопки, ссылки, фокус
+  --on-brand   текст на кнопке бренда
+  --brand-soft фон плашки службы
+  --brand-ink  текст на плашке (= бренд: более тёмный оттенок петроля в sRGB уходит в мутную зону)
+*/
+:root {
+  --brand:      light-dark(oklch(0.5 0.085 205), oklch(0.74 0.1 205));
+  --on-brand:   light-dark(oklch(1 0 0),         oklch(0.17 0 0));
+  --brand-soft: light-dark(oklch(0.95 0.025 205), oklch(0.27 0.045 205));
+  --brand-ink:  var(--brand);
+}

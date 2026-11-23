@@ -1,0 +1,32 @@
+---
+import ThemeSwitch from './ThemeSwitch.astro';
+---
+
+<header class="header">
+  <div class="container header__row">
+    <a class="header__logo" href="/">ТрекЧек</a>
+    <ThemeSwitch />
+  </div>
+</header>
+
+<style>
+  .header {
+    border-bottom: var(--border-w) solid var(--border);
+    background: var(--surface);
+  }
+
+  .header__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding-block: var(--space-8);
+  }
+
+  .header__logo {
+    font-size: var(--fs-22);
+    font-weight: var(--fw-bold);
+    color: var(--text);
+    text-decoration: none;
+  }
+</style>

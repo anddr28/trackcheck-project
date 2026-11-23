@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Знак ТрекЧека: буква «Т» на цвете бренда (петроль, #02717a = oklch(0.5 0.085 205)) -->
+  <rect width="64" height="64" rx="14" fill="#02717a"/>
+  <rect x="15" y="16" width="34" height="9" rx="2" fill="#ffffff"/>
+  <rect x="27.5" y="16" width="9" height="33" rx="2" fill="#ffffff"/>
+</svg>
